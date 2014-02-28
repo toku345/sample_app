@@ -114,4 +114,20 @@ describe "Authentication" do
       specify { expect(response).to redirect_to(root_url) }
     end
   end
+
+  describe "as signed-in user" do
+    let(:user) { FactoryGirl.create(:user) }
+
+    before { sign_in user, no_capybara: true }
+
+    describe "submitting a GET request to the Users#new action" do
+      before { get new_user_path }
+      specify { expect(response).to redirect_to(root_url) }
+    end
+
+    describe "submitting a GET request to the Users#create action" do
+      before { post users_path }
+      specify { expect(response).to redirect_to(root_url) }
+    end
+  end
 end
